@@ -1,12 +1,12 @@
 import { useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { useState } from "react";
 
 function App() {
-
   const [githubUser, setGithubUser] = useState("");
   const [email, setEmail] = useState("");
+  const [users, setUsers] = useState([]);
+  const [terms, setTerms] = useState(false);
 
   const sendInfo = (event) => {
     event.preventDefault();
@@ -17,31 +17,14 @@ function App() {
       })
       .then(() => {
         alert("Se creó satisfactoriamente");
+        axios.get("http://localhost:8000/users/list").then((response) => {
+          setUsers(response.data);
+        });
       })
       .catch(() => {
-        alert("intenta de nuevo");
+        alert("Intenta de nuevo");
       });
   };
-
-  const users = [
-    {
-      githubUser: "Alejandra",
-      email: "alejandra_lorduy@hotmail.com",
-    },
-    {
-      githubUser: "Laura",
-      email: "laurabernalc@gmail.com",
-    },
-    {
-      githubUser: "Felipe",
-      email: "fherrerav123@gmail.com",
-    },
-    {
-      githubUser: "Sonia",
-      email: "soniamatilde26@hotmail.com",
-    },
-  ];
-
 
   return (
     <div className="App">
@@ -62,11 +45,18 @@ function App() {
           onChange={(event) => setEmail(event.target.value)}
         />
         <div className="terminos">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={(event) => setTerms(event.target.checked)}
+          />
           <p className="accept"> Acepto términos y condiciones </p>
         </div>
 
-        <button onClick={(event) => sendInfo(event)} className="registro">
+        <button
+          disabled={!terms}
+          onClick={(event) => sendInfo(event)}
+          className="registro"
+        >
           Registrarse
         </button>
       </form>
