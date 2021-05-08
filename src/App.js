@@ -1,8 +1,10 @@
+import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import { useState } from "react";
 
 function App() {
+
   const [githubUser, setGithubUser] = useState("");
   const [email, setEmail] = useState("");
 
@@ -21,11 +23,30 @@ function App() {
       });
   };
 
+  const users = [
+    {
+      githubUser: "Alejandra",
+      email: "alejandra_lorduy@hotmail.com",
+    },
+    {
+      githubUser: "Laura",
+      email: "laurabernalc@gmail.com",
+    },
+    {
+      githubUser: "Felipe",
+      email: "fherrerav123@gmail.com",
+    },
+    {
+      githubUser: "Sonia",
+      email: "soniamatilde26@hotmail.com",
+    },
+  ];
+
+
   return (
     <div className="App">
       <form className="form">
         <h1 className="title">Formulario de Registro</h1>
-
         <p className="label">Usuario Github:</p>
         <input
           className="input"
@@ -49,6 +70,15 @@ function App() {
           Registrarse
         </button>
       </form>
+
+      <div className="card">
+        {users.map((user) => (
+          <div className="userCard">
+            <p>Usuario Github: {user.githubUser}</p>
+            <p>Email: {user.email}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
